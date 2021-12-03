@@ -7,22 +7,24 @@ const generateFakeRecipe = async (req, res) => {
         let usersCollection = await db.collection('users').get();
         let no_records = req.params.no_records;
         usersCollection.docs.forEach(element => {
-            users.add(element.id);
+            users.push(element.id);
         });
 
         for (let i = 0; i < no_records; i++) {
             let recipeName = faker.lorem.word();
-            let preparationTime = faker.random.number();
+            let preparationTime = Math.floor(Math.random() * 110 + 10);
+            let recipeInstruction = faker.lorem.paragraph();
             let userId = faker.random.arrayElement(users);
             const ingredients = [];
             for (let i = 0; i < Math.floor(Math.random() * 4 + 1); i++) {
-                ingredients.add(faker.lorem.word());
+                ingredients.push(faker.lorem.word());
             }
 
             const fakeRecipe = {
                 recipeName: recipeName,
                 preparationTime: preparationTime,
                 userId: userId,
+                instruction: recipeInstruction,
                 ingredients: ingredients,
             };
 

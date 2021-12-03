@@ -5,19 +5,18 @@ const admin = require('firebase-admin');
 // TODO: Add SDKs for Firebase products that you want to use
 
 admin.initializeApp({
-    apiKey: 'AIzaSyD9QY-8aZ8M-KSkUxqIoY1-NP-RxP7dpBI',
-
-    authDomain: 'cookingbook-e73d0.firebaseapp.com',
-
-    projectId: 'cookingbook-e73d0',
-
-    storageBucket: 'cookingbook-e73d0.appspot.com',
-
-    messagingSenderId: '626597050868',
-
-    appId: '1:626597050868:web:2148335465f05382afa1a1',
-
-    measurementId: 'G-TM7FES3L1H',
+    credential: admin.credential.cert({
+        type: process.env.type,
+        project_id: process.env.project_id,
+        private_key_id: process.env.private_key_id,
+        private_key: process.env.private_key.replace(/\\n/g, '\n'),
+        client_email: process.env.client_email,
+        client_id: process.env.client_id,
+        auth_uri: process.env.auth_uri,
+        token_uri: process.env.token_uri,
+        auth_provider_x509_cert_url: process.env.auth_provider_x509_cert_url,
+        client_x509_cert_url: process.env.client_x509_cert_url,
+    }),
 });
 
 // Initialize Firebase

@@ -22,7 +22,7 @@ const generateFakeUsers = async (req, res) => {
         }
         res.status(201).json({ message: 'Users added' });
     } catch (e) {
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: e.message });
     }
 };
 
