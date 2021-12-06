@@ -1,15 +1,16 @@
 <template>
-    <div class="landing">
-        <LoginComponent />
-    </div>
+  <div class="landing">
+    <LoginFormComponent />
+  </div>
 </template>
 
 <script>
-import LoginComponent from '../components/LoginComponent.vue';
+import LoginFormComponent from "../components/LoginFormComponent.vue";
+
 export default {
-    name: 'LoginView',
-    components: {
-        LoginComponent,
-    },
+  name: "LoginView",
+  components: {
+    LoginFormComponent,
+  },
 };
 </script>

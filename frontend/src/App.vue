@@ -2,15 +2,9 @@
     <q-layout id="app">
         <div class="q-pa-md">
             <q-toolbar
-                style="
-                    font-family: Helvetica;
-                    letter-spacing: 1.5px;
-                    font-weight: bold;
-                "
+                style="letter-spacing: 1.5px; font-weight: bold"
                 class="navbar bg-purple text-white shadow-2 rounded-borders"
             >
-                <q-btn flat label="CookingBook" />
-                <q-space />
                 <q-tabs v-model="tab" shrink>
                     <q-tab
                         v-if="userId === null"
@@ -25,13 +19,7 @@
                         label="Sign In"
                     />
                     <q-tab
-                        v-if="userId !== null"
-                        @click="goToCreateRecipeForm"
-                        name="tab3"
-                        label="Create Recipe"
-                    />
-                    <q-tab
-                        v-if="userId !== null"
+                        v-if="userId === null"
                         @click="logout"
                         name="tab4"
                         label="Log out"
@@ -47,16 +35,17 @@
 
 <script>
 import { ref } from 'vue';
+
 export default {
     methods: {
         goToRegister: function () {
-            this.$router.push('/register');
+            this.$router.push('/auth/register');
         },
         goToLogin: function () {
-            this.$router.push('/login');
+            this.$router.push('/auth/login');
         },
-        goToCreateRecipeForm: function () {
-            this.$router.push('/createRecipe');
+        goToHome: function () {
+            this.$router.push('/home');
         },
         logout: function () {
             localStorage.removeItem('userId');
@@ -71,10 +60,11 @@ export default {
             userToken: null,
         };
     },
-    mounted() {
+    updated() {
         this.userId = localStorage.getItem('userId');
         this.userToken = localStorage.getItem('userToken');
     },
+
     components: {},
 };
 </script>
@@ -88,18 +78,21 @@ export default {
     width: 100%;
     height: 100%;
 }
+
 .q-pa-md .navbar {
     background-color: #4a4b4d !important;
 }
+
 .navbar span {
     font-weight: 600;
     font-size: 18px;
     letter-spacing: 2.5px;
-    font-family: 'Permanent Marker', cursive;
 }
+
 .navbar .q-tab__label {
     font-weight: 700;
 }
+
 .pageContainer {
     width: 100%;
 }

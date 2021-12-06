@@ -44,7 +44,7 @@ const createRecipe = async (req, res) => {
     try {
         const userId = req.params.userId;
         let recipeData = req.body;
-        fridgeData.userId = userId;
+        recipeData.userId = userId;
 
         await db.collection('recipes').add(recipeData);
         res.status(201).json({
@@ -61,7 +61,7 @@ const updateRecipe = async (req, res) => {
     try {
         const recipeId = req.params.recipeId;
         let newRecipeData = req.body;
-        await db.collection('fridges').doc(recipeId).update(newRecipeData);
+        await db.collection('recipes').doc(recipeId).update(newRecipeData);
         res.status(202).json({ message: 'Recipe updated!' });
     } catch (e) {
         res.status(500).json({ message: e.message });
@@ -71,10 +71,95 @@ const updateRecipe = async (req, res) => {
 const deleteRecipe = async (req, res) => {
     try {
         const recipeId = req.params.recipeId;
-        await db.collection('fridges').doc(recipeId).delete();
+        await db.collection('recipes').doc(recipeId).delete();
         res.status(202).json({ message: 'Recipe deleted!' });
     } catch (e) {
         res.status(500).json({ message: e.message });
+    }
+};
+
+const getRecipesForUser = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        let recipes = [];
+        await db
+            .collection('recipes')
+            .where('userId', '==', userId)
+            .get()
+            .then(querySnapshot => {
+                let recipe;
+                querySnapshot.forEach(doc => {
+                    recipe = doc.data();
+                    recipe.id = doc.id;
+                    recipes.push(recipe);
+                });
+            });
+
+        for (let i = 0; i < recipes.length; i++) {
+            let items = [];
+            let itemCollection = await db
+                .collection('items')
+                .where('recipeId', '==', recipes[i].id)
+                .get()
+                .then(querySnapshot => {
+                    let item;
+                    querySnapshot.forEach(doc => {
+                        item = doc.data();
+                        item.id = doc.id;
+                        items.push(item);
+                    });
+                });
+            recipes[i].items = items;
+        }
+        res.status(200).json({
+            message: 'Success!',
+            recipes: recipes,
+        });
+    } catch (e) {
+        res.status(500).json({
+            message: e.message,
+        });
+    }
+};
+
+const getAllRecipes = async (req, res) => {
+    try {
+        let recipes = [];
+        await db
+            .collection('recipes')
+            .get()
+            .then(querySnapshot => {
+                let recipe;
+                querySnapshot.forEach(doc => {
+                    recipe = doc.data();
+                    recipe.id = doc.id;
+                    recipes.push(recipe);
+                });
+            });
+
+        for (let i = 0; i < recipes.length; i++) {
+            let items = [];
+            let itemCollection = await db
+                .collection('items')
+                .get()
+                .then(querySnapshot => {
+                    let item;
+                    querySnapshot.forEach(doc => {
+                        item = doc.data();
+                        item.id = doc.id;
+                        items.push(item);
+                    });
+                });
+            recipes[i].items = items;
+        }
+        res.status(200).json({
+            message: 'Success!',
+            recipes: recipes,
+        });
+    } catch (e) {
+        res.status(500).json({
+            message: e.message,
+        });
     }
 };
 
@@ -83,4 +168,6 @@ module.exports = {
     createRecipe,
     updateRecipe,
     deleteRecipe,
+    getRecipesForUser,
+    getAllRecipes,
 };

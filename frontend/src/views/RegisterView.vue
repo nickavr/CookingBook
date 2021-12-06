@@ -1,15 +1,16 @@
 <template>
-    <div class="landing">
-        <RegisterComponent />
-    </div>
+  <div class="landing">
+    <RegisterFormComponent />
+  </div>
 </template>
 
 <script>
-import RegisterComponent from '../components/RegisterComponent.vue';
+import RegisterFormComponent from "../components/RegisterFormComponent.vue";
+
 export default {
-    name: 'RegisterView',
-    components: {
-        RegisterComponent,
-    },
+  name: "RegisterView",
+  components: {
+    RegisterFormComponent,
+  },
 };
 </script>

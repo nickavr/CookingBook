@@ -30,6 +30,7 @@ router.use(
     verifyMiddleware.verifyToken,
     recipeController.deleteRecipe
 );
-// router.use('/recipes/:userId', recipeController.get);
+router.use('/recipes/:userId', recipeController.getRecipesForUser);
+router.use('/recipes', recipeController.getAllRecipes);
 
 module.exports = router;

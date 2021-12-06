@@ -1,28 +1,34 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import LandingPage from '../views/LandingPageView.vue';
+
+import LandingView from '../views/LandingView.vue';
+import BasicLayout from '../layouts/BasicLayout.vue';
+import RegisterView from '../views/RegisterView.vue';
+import LoginView from '../views/LoginView.vue';
+import HomeView from '../views/HomeView.vue';
 const routes = [
     {
         path: '/',
-        name: 'LandingPage',
-        component: LandingPage,
+        name: 'LandingView',
+        component: LandingView,
+        meta: { layout: BasicLayout },
     },
     {
-        path: '/login',
-        name: 'Login',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import(/* webpackChunkName: "about" */ '../views/LoginView.vue'),
+        path: '/auth/register',
+        name: 'RegisterView',
+        component: RegisterView,
+        meta: { layout: BasicLayout },
     },
     {
-        path: '/register',
-        name: 'Register',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import(/* webpackChunkName: "about" */ '../views/RegisterView.vue'),
+        path: '/auth/login',
+        name: 'LoginView',
+        component: LoginView,
+        meta: { layout: BasicLayout },
+    },
+    {
+        path: '/home',
+        name: 'HomeView',
+        component: HomeView,
+        meta: { layout: BasicLayout },
     },
 ];
 
